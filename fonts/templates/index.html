@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Анализ шрифтов</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f6f7fb;
+      color: #1f2937;
+    }
+    .container {
+      max-width: 980px;
+      margin: 40px auto;
+      padding: 0 16px;
+    }
+    h1 {
+      margin: 0 0 16px;
+      font-size: 28px;
+    }
+    .card {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+      padding: 18px;
+      margin-bottom: 16px;
+    }
+    form {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    input[type="url"], button {
+      font-size: 16px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+    }
+    input[type="url"] {
+      flex: 1;
+      min-width: 280px;
+    }
+    button {
+      border: none;
+      background: #2563eb;
+      color: white;
+      cursor: pointer;
+      min-width: 140px;
+    }
+    button:hover {
+      background: #1d4ed8;
+    }
+    .error {
+      color: #b91c1c;
+      background: #fee2e2;
+      border: 1px solid #fecaca;
+      border-radius: 8px;
+      padding: 10px 12px;
+      margin-top: 12px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: 8px;
+    }
+    th, td {
+      border-bottom: 1px solid #e5e7eb;
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      background: #f9fafb;
+      font-weight: 700;
+    }
+    tbody tr:hover {
+      background: #f8fafc;
+    }
+    .table-title {
+      margin: 0 0 10px;
+      font-size: 18px;
+    }
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 12px 0;
+      color: #374151;
+    }
+    .weight-col {
+      display: none;
+    }
+    body.show-weight .weight-col {
+      display: table-cell;
+    }
+    .muted {
+      color: #6b7280;
+      font-size: 13px;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <h1>Анализ шрифтов по URL</h1>
+    <section class="card">
+      <form method="post">
+        <input
+          type="url"
+          name="url"
+          placeholder="https://example.com"
+          value="{{ page_url }}"
+          required
+        >
+        <button type="submit">Запустить</button>
+      </form>
+      {% if error %}
+      <div class="error">{{ error }}</div>
+      {% endif %}
+    </section>
+
+    {% if summary_rows %}
+    <section class="card">
+      <h2 class="table-title">Обзор</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>font_family</th>
+            <th>weight-name</th>
+            <th class="weight-col">font-weight</th>
+            <th>mentioned</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in summary_rows %}
+          <tr>
+            <td>{{ row.font_family }}</td>
+            <td>{{ row.font_weight_name }}</td>
+            <td class="weight-col">{{ row.font_weight }}</td>
+            <td>{{ row.elements_count }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <label class="controls">
+        <input id="showWeight" type="checkbox">
+        Показать font-weight
+      </label>
+    </section>
+    {% endif %}
+
+    {% if full_rows %}
+    <section class="card">
+      <button id="toggleFullTable" type="button">Показать все элементы</button>
+    </section>
+
+    <section id="fullTableSection" class="card hidden">
+      <h2 class="table-title">Все элементы</h2>
+      <p class="muted">Каждая строка — отдельный найденный текстовый блок на странице.</p>
+      <table>
+        <thead>
+          <tr>
+            <th>font_family</th>
+            <th>weight-name</th>
+            <th class="weight-col">font-weight</th>
+            <th>Ссылка на блок</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in full_rows %}
+          <tr>
+            <td>{{ row.font_family }}</td>
+            <td>{{ row.font_weight_name }}</td>
+            <td class="weight-col">{{ row.font_weight }}</td>
+            <td>
+              <a href="{{ row.block_link }}" target="_blank" rel="noopener noreferrer">
+                Открыть блок
+              </a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </section>
+    {% endif %}
+
+  </main>
+  <script>
+    const showWeightToggle = document.getElementById("showWeight");
+    if (showWeightToggle) {
+      showWeightToggle.addEventListener("change", (event) => {
+        document.body.classList.toggle("show-weight", event.target.checked);
+      });
+    }
+
+    const fullTableButton = document.getElementById("toggleFullTable");
+    const fullTableSection = document.getElementById("fullTableSection");
+    if (fullTableButton && fullTableSection) {
+      fullTableButton.addEventListener("click", () => {
+        const isHidden = fullTableSection.classList.toggle("hidden");
+        fullTableButton.textContent = isHidden ? "Показать все элементы" : "Скрыть все элементы";
+      });
+    }
+  </script>
+</body>
+</html>
