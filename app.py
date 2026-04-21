@@ -6,6 +6,7 @@ from urllib.parse import urlparse
 from flask import Flask, render_template, request
 
 from font_inspector import detect_fonts
+from history_store import add_history_entry, load_history
 
 app = Flask(__name__)
 
@@ -26,6 +27,7 @@ def index():
   page_url = ""
   summary_rows: list[dict[str, str | int]] = []
   full_rows: list[dict[str, str | int]] = []
+  history_entries = load_history()
   error = ""
 
   if request.method == "POST":
@@ -39,6 +41,13 @@ def index():
         data = detect_fonts(normalized_url, timeout=25, browser=None)
         summary_rows = data.get("combinations_in_use", [])
         full_rows = data.get("element_records", [])
+        add_history_entry(
+          request_url=normalized_url,
+          resolved_url=data.get("url", normalized_url),
+          summary_rows=summary_rows,
+          full_rows=full_rows,
+        )
+        history_entries = load_history()
       except Exception as exc:  # noqa: BLE001
         error = f"Не удалось проанализировать страницу: {exc}"
 
@@ -47,6 +56,7 @@ def index():
     page_url=page_url,
     summary_rows=summary_rows,
     full_rows=full_rows,
+    history_entries=history_entries,
     error=error,
   )
 
