@@ -11,6 +11,7 @@ from flask import Flask, render_template, request
 from font_inspector import detect_fonts
 from history_store import (
   add_history_entry,
+  create_empty_chat,
   delete_chat,
   load_history,
   toggle_pinned,
@@ -75,14 +76,13 @@ def parse_iso_datetime(value: str) -> datetime:
 
 
 def history_sections(entries: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
-  visible_entries = [item for item in entries if not bool(item.get("is_empty", False))]
   now = datetime.now(timezone.utc)
   today = now.date()
   yesterday = today - timedelta(days=1)
   week_border = today - timedelta(days=7)
 
-  pinned = [item for item in visible_entries if item.get("pinned")]
-  regular = [item for item in visible_entries if not item.get("pinned")]
+  pinned = [item for item in entries if item.get("pinned")]
+  regular = [item for item in entries if not item.get("pinned")]
 
   buckets: dict[str, list[dict[str, Any]]] = {
     "Сегодня": [],
@@ -130,7 +130,7 @@ def index():
 
     if history_action:
       if history_action == "new":
-        active_chat_id = ""
+        active_chat_id = create_empty_chat()
         page_url = ""
         summary_rows = []
         full_rows = []

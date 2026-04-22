@@ -285,6 +285,13 @@
       font-size: 12px;
       margin-top: 8px;
     }
+    .table2-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
     @media (max-width: 980px) {
       .app-shell {
         grid-template-columns: 1fr;
@@ -427,26 +434,22 @@
       {% endif %}
 
       {% if full_rows %}
-      <section class="card">
-        <div class="controls-row">
-          <button class="toggle-block" data-target="fullTableSection" type="button">
-            Показать все элементы
-          </button>
-          <label class="controls">
-            <input id="blocksInOrder" type="checkbox">
-            Блоки по порядку
-          </label>
+      <section id="fullTableSection" class="card">
+        <div class="table2-head">
+          <h2 class="table-title">Текстовые блоки</h2>
+          <button class="toggle-block" data-target="table2Body" type="button">найти</button>
         </div>
-      </section>
-
-      <section id="fullTableSection" class="card hidden">
-        <h2 class="table-title">Все элементы</h2>
-        <p class="muted">Каждая строка — отдельный найденный текстовый блок на странице.</p>
+        <p id="table2Description" class="muted">Все строки страницы с группировкой по шрифтам.</p>
+        <label class="controls">
+          <input id="blocksInOrder" type="checkbox">
+          Блоки по порядку
+        </label>
+        <div id="table2Body" class="hidden">
         <div id="groupedTableView" class="grouped-view">
           {% for group in grouped_full_rows %}
           <section class="group-box">
             <div class="group-header-row">
-              <h3 class="group-title">{{ group.font_family }}</h3>
+              <h3 class="group-title">{{ group.font_family }} {{ group.font_weight_name }}</h3>
               <button class="toggle-block small-button" data-target="group-table-{{ group.group_id }}" type="button">
                 Посмотреть расположение
               </button>
@@ -520,6 +523,7 @@
           </table>
         </div>
         <p class="hint">Подсветка работает через фрагмент текста/якорь страницы и зависит от поддержки браузером целевого сайта.</p>
+        </div>
       </section>
       {% endif %}
     </section>
@@ -554,11 +558,17 @@
     const blocksInOrder = document.getElementById("blocksInOrder");
     const flatTableView = document.getElementById("flatTableView");
     const groupedTableView = document.getElementById("groupedTableView");
+    const table2Description = document.getElementById("table2Description");
     if (blocksInOrder && flatTableView && groupedTableView) {
       blocksInOrder.addEventListener("change", (event) => {
         const ordered = event.target.checked;
         flatTableView.classList.toggle("hidden", !ordered);
         groupedTableView.classList.toggle("hidden", ordered);
+        if (table2Description) {
+          table2Description.textContent = ordered
+            ? "Все строки траницы по порядку"
+            : "Все строки страницы с группировкой по шрифтам.";
+        }
       });
     }
 
