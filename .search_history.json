@@ -1,0 +1,365 @@
+[
+  {
+    "id": "20260422132322342030",
+    "created_at": "2026-04-22T13:23:22.341135+00:00",
+    "updated_at": "2026-04-22T13:23:22.341135+00:00",
+    "request_url": "https://example.com",
+    "resolved_url": "https://example.com/",
+    "summary_rows": [
+      {
+        "elements_count": 2,
+        "font_family": "system-ui",
+        "font_stack": "system-ui, sans-serif",
+        "font_style": "normal",
+        "font_weight": "400",
+        "font_weight_name": "Normal"
+      },
+      {
+        "elements_count": 1,
+        "font_family": "system-ui",
+        "font_stack": "system-ui, sans-serif",
+        "font_style": "normal",
+        "font_weight": "700",
+        "font_weight_name": "Bold"
+      }
+    ],
+    "full_rows": [
+      {
+        "block_anchor": "Example Domain",
+        "block_anchor_type": "text",
+        "block_link": "https://example.com/#:~:text=Example%20Domain",
+        "block_selector": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(1) > h1:nth-of-type(1)",
+        "block_text_preview": "Example Domain",
+        "elements_count": 1,
+        "font_family": "system-ui",
+        "font_stack": "system-ui, sans-serif",
+        "font_style": "normal",
+        "font_weight": "700",
+        "font_weight_name": "Bold",
+        "selector_or_class": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(1) > h1:nth-of-type(1)",
+        "text_sample": "Example Domain"
+      },
+      {
+        "block_anchor": "This domain is for use in documentation examples without needing permission. Avoid use in operations.",
+        "block_anchor_type": "text",
+        "block_link": "https://example.com/#:~:text=This%20domain%20is%20for%20use%20in%20documentation%20examples%20without%20needing%20permission.%20Avoid%20use%20in%20operations.",
+        "block_selector": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(1) > p:nth-of-type(1)",
+        "block_text_preview": "This domain is for use in documentation examples without needing permission. Avoid use in operations.",
+        "elements_count": 1,
+        "font_family": "system-ui",
+        "font_stack": "system-ui, sans-serif",
+        "font_style": "normal",
+        "font_weight": "400",
+        "font_weight_name": "Normal",
+        "selector_or_class": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(1) > p:nth-of-type(1)",
+        "text_sample": "This domain is for use in..."
+      },
+      {
+        "block_anchor": "Learn more",
+        "block_anchor_type": "text",
+        "block_link": "https://example.com/#:~:text=Learn%20more",
+        "block_selector": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(1) > p:nth-of-type(2) > a:nth-of-type(1)",
+        "block_text_preview": "Learn more",
+        "elements_count": 1,
+        "font_family": "system-ui",
+        "font_stack": "system-ui, sans-serif",
+        "font_style": "normal",
+        "font_weight": "400",
+        "font_weight_name": "Normal",
+        "selector_or_class": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(1) > p:nth-of-type(2) > a:nth-of-type(1)",
+        "text_sample": "Learn more"
+      }
+    ],
+    "pinned": false,
+    "starred": false,
+    "is_empty": false
+  },
+  {
+    "id": "20260422132305189724",
+    "created_at": "2026-04-22T13:23:05.189018+00:00",
+    "updated_at": "2026-04-22T13:23:05.189018+00:00",
+    "request_url": "https://example.com",
+    "resolved_url": "https://example.com/",
+    "summary_rows": [
+      {
+        "elements_count": 2,
+        "font_family": "system-ui",
+        "font_stack": "system-ui, sans-serif",
+        "font_style": "normal",
+        "font_weight": "400",
+        "font_weight_name": "Normal"
+      },
+      {
+        "elements_count": 1,
+        "font_family": "system-ui",
+        "font_stack": "system-ui, sans-serif",
+        "font_style": "normal",
+        "font_weight": "700",
+        "font_weight_name": "Bold"
+      }
+    ],
+    "full_rows": [
+      {
+        "block_anchor": "Example Domain",
+        "block_anchor_type": "text",
+        "block_link": "https://example.com/#:~:text=Example%20Domain",
+        "block_selector": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(1) > h1:nth-of-type(1)",
+        "block_text_preview": "Example Domain",
+        "elements_count": 1,
+        "font_family": "system-ui",
+        "font_stack": "system-ui, sans-serif",
+        "font_style": "normal",
+        "font_weight": "700",
+        "font_weight_name": "Bold",
+        "selector_or_class": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(1) > h1:nth-of-type(1)",
+        "text_sample": "Example Domain"
+      },
+      {
+        "block_anchor": "This domain is for use in documentation examples without needing permission. Avoid use in operations.",
+        "block_anchor_type": "text",
+        "block_link": "https://example.com/#:~:text=This%20domain%20is%20for%20use%20in%20documentation%20examples%20without%20needing%20permission.%20Avoid%20use%20in%20operations.",
+        "block_selector": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(1) > p:nth-of-type(1)",
+        "block_text_preview": "This domain is for use in documentation examples without needing permission. Avoid use in operations.",
+        "elements_count": 1,
+        "font_family": "system-ui",
+        "font_stack": "system-ui, sans-serif",
+        "font_style": "normal",
+        "font_weight": "400",
+        "font_weight_name": "Normal",
+        "selector_or_class": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(1) > p:nth-of-type(1)",
+        "text_sample": "This domain is for use in..."
+      },
+      {
+        "block_anchor": "Learn more",
+        "block_anchor_type": "text",
+        "block_link": "https://example.com/#:~:text=Learn%20more",
+        "block_selector": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(1) > p:nth-of-type(2) > a:nth-of-type(1)",
+        "block_text_preview": "Learn more",
+        "elements_count": 1,
+        "font_family": "system-ui",
+        "font_stack": "system-ui, sans-serif",
+        "font_style": "normal",
+        "font_weight": "400",
+        "font_weight_name": "Normal",
+        "selector_or_class": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(1) > p:nth-of-type(2) > a:nth-of-type(1)",
+        "text_sample": "Learn more"
+      }
+    ],
+    "pinned": false,
+    "starred": false,
+    "is_empty": false
+  },
+  {
+    "id": "20260422130355333110",
+    "created_at": "2026-04-22T13:03:55.333228+00:00",
+    "updated_at": "2026-04-22T13:03:55.333228+00:00",
+    "request_url": "https://example.com",
+    "resolved_url": "https://example.com/",
+    "summary_rows": [
+      {
+        "elements_count": 2,
+        "font_family": "system-ui",
+        "font_stack": "system-ui, sans-serif",
+        "font_style": "normal",
+        "font_weight": "400",
+        "font_weight_name": "Normal"
+      },
+      {
+        "elements_count": 1,
+        "font_family": "system-ui",
+        "font_stack": "system-ui, sans-serif",
+        "font_style": "normal",
+        "font_weight": "700",
+        "font_weight_name": "Bold"
+      }
+    ],
+    "full_rows": [
+      {
+        "block_anchor": "Example Domain",
+        "block_anchor_type": "text",
+        "block_link": "https://example.com/#:~:text=Example%20Domain",
+        "block_selector": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(1) > h1:nth-of-type(1)",
+        "block_text_preview": "Example Domain",
+        "elements_count": 1,
+        "font_family": "system-ui",
+        "font_stack": "system-ui, sans-serif",
+        "font_style": "normal",
+        "font_weight": "700",
+        "font_weight_name": "Bold",
+        "selector_or_class": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(1) > h1:nth-of-type(1)",
+        "text_sample": "Example Domain"
+      },
+      {
+        "block_anchor": "This domain is for use in documentation examples without needing permission. Avoid use in operations.",
+        "block_anchor_type": "text",
+        "block_link": "https://example.com/#:~:text=This%20domain%20is%20for%20use%20in%20documentation%20examples%20without%20needing%20permission.%20Avoid%20use%20in%20operations.",
+        "block_selector": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(1) > p:nth-of-type(1)",
+        "block_text_preview": "This domain is for use in documentation examples without needing permission. Avoid use in operations.",
+        "elements_count": 1,
+        "font_family": "system-ui",
+        "font_stack": "system-ui, sans-serif",
+        "font_style": "normal",
+        "font_weight": "400",
+        "font_weight_name": "Normal",
+        "selector_or_class": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(1) > p:nth-of-type(1)",
+        "text_sample": "This domain is for use in..."
+      },
+      {
+        "block_anchor": "Learn more",
+        "block_anchor_type": "text",
+        "block_link": "https://example.com/#:~:text=Learn%20more",
+        "block_selector": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(1) > p:nth-of-type(2) > a:nth-of-type(1)",
+        "block_text_preview": "Learn more",
+        "elements_count": 1,
+        "font_family": "system-ui",
+        "font_stack": "system-ui, sans-serif",
+        "font_style": "normal",
+        "font_weight": "400",
+        "font_weight_name": "Normal",
+        "selector_or_class": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(1) > p:nth-of-type(2) > a:nth-of-type(1)",
+        "text_sample": "Learn more"
+      }
+    ],
+    "pinned": false,
+    "starred": false,
+    "is_empty": false
+  },
+  {
+    "id": "20260422130345103344",
+    "created_at": "2026-04-22T13:03:45.103390+00:00",
+    "updated_at": "2026-04-22T13:03:45.103390+00:00",
+    "request_url": "https://example.com",
+    "resolved_url": "https://example.com/",
+    "summary_rows": [
+      {
+        "elements_count": 2,
+        "font_family": "system-ui",
+        "font_stack": "system-ui, sans-serif",
+        "font_style": "normal",
+        "font_weight": "400",
+        "font_weight_name": "Normal"
+      },
+      {
+        "elements_count": 1,
+        "font_family": "system-ui",
+        "font_stack": "system-ui, sans-serif",
+        "font_style": "normal",
+        "font_weight": "700",
+        "font_weight_name": "Bold"
+      }
+    ],
+    "full_rows": [
+      {
+        "block_anchor": "Example Domain",
+        "block_anchor_type": "text",
+        "block_link": "https://example.com/#:~:text=Example%20Domain",
+        "block_selector": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(1) > h1:nth-of-type(1)",
+        "block_text_preview": "Example Domain",
+        "elements_count": 1,
+        "font_family": "system-ui",
+        "font_stack": "system-ui, sans-serif",
+        "font_style": "normal",
+        "font_weight": "700",
+        "font_weight_name": "Bold",
+        "selector_or_class": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(1) > h1:nth-of-type(1)",
+        "text_sample": "Example Domain"
+      },
+      {
+        "block_anchor": "This domain is for use in documentation examples without needing permission. Avoid use in operations.",
+        "block_anchor_type": "text",
+        "block_link": "https://example.com/#:~:text=This%20domain%20is%20for%20use%20in%20documentation%20examples%20without%20needing%20permission.%20Avoid%20use%20in%20operations.",
+        "block_selector": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(1) > p:nth-of-type(1)",
+        "block_text_preview": "This domain is for use in documentation examples without needing permission. Avoid use in operations.",
+        "elements_count": 1,
+        "font_family": "system-ui",
+        "font_stack": "system-ui, sans-serif",
+        "font_style": "normal",
+        "font_weight": "400",
+        "font_weight_name": "Normal",
+        "selector_or_class": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(1) > p:nth-of-type(1)",
+        "text_sample": "This domain is for use in..."
+      },
+      {
+        "block_anchor": "Learn more",
+        "block_anchor_type": "text",
+        "block_link": "https://example.com/#:~:text=Learn%20more",
+        "block_selector": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(1) > p:nth-of-type(2) > a:nth-of-type(1)",
+        "block_text_preview": "Learn more",
+        "elements_count": 1,
+        "font_family": "system-ui",
+        "font_stack": "system-ui, sans-serif",
+        "font_style": "normal",
+        "font_weight": "400",
+        "font_weight_name": "Normal",
+        "selector_or_class": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(1) > p:nth-of-type(2) > a:nth-of-type(1)",
+        "text_sample": "Learn more"
+      }
+    ],
+    "pinned": false,
+    "starred": false,
+    "is_empty": false
+  },
+  {
+    "id": "20260420183712737558",
+    "created_at": "2026-04-20T18:37:12.737613+00:00",
+    "updated_at": "2026-04-20T18:37:12.737613+00:00",
+    "request_url": "https://example.com",
+    "resolved_url": "https://example.com/",
+    "summary_rows": [
+      {
+        "elements_count": 2,
+        "font_family": "system-ui",
+        "font_stack": "system-ui, sans-serif",
+        "font_style": "normal",
+        "font_weight": "400",
+        "font_weight_name": "Normal"
+      },
+      {
+        "elements_count": 1,
+        "font_family": "system-ui",
+        "font_stack": "system-ui, sans-serif",
+        "font_style": "normal",
+        "font_weight": "700",
+        "font_weight_name": "Bold"
+      }
+    ],
+    "full_rows": [
+      {
+        "block_link": "https://example.com/#:~:text=Example%20Domain",
+        "block_selector": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(1) > h1:nth-of-type(1)",
+        "block_text_preview": "Example Domain",
+        "elements_count": 1,
+        "font_family": "system-ui",
+        "font_stack": "system-ui, sans-serif",
+        "font_style": "normal",
+        "font_weight": "700",
+        "font_weight_name": "Bold"
+      },
+      {
+        "block_link": "https://example.com/#:~:text=This%20domain%20is%20for%20use%20in%20documentation%20examples%20without%20needing%20permission.%20Avoid%20use%20in%20operations.",
+        "block_selector": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(1) > p:nth-of-type(1)",
+        "block_text_preview": "This domain is for use in documentation examples without needing permission. Avoid use in operations.",
+        "elements_count": 1,
+        "font_family": "system-ui",
+        "font_stack": "system-ui, sans-serif",
+        "font_style": "normal",
+        "font_weight": "400",
+        "font_weight_name": "Normal"
+      },
+      {
+        "block_link": "https://example.com/#:~:text=Learn%20more",
+        "block_selector": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(1) > p:nth-of-type(2) > a:nth-of-type(1)",
+        "block_text_preview": "Learn more",
+        "elements_count": 1,
+        "font_family": "system-ui",
+        "font_stack": "system-ui, sans-serif",
+        "font_style": "normal",
+        "font_weight": "400",
+        "font_weight_name": "Normal"
+      }
+    ],
+    "pinned": false,
+    "starred": false,
+    "is_empty": false
+  }
+]
