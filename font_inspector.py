@@ -73,6 +73,13 @@ function ownTextContent(el) {
   return normalizeSpace(combined);
 }
 
+function toTextSample(value, maxLen = 28) {
+  const clean = normalizeSpace(value);
+  if (!clean) return "";
+  if (clean.length <= maxLen) return clean;
+  return `${clean.slice(0, maxLen - 3)}...`;
+}
+
 function cssPath(el) {
   if (!(el instanceof Element)) return "";
   const path = [];
@@ -97,16 +104,44 @@ function cssPath(el) {
   return path.join(" > ");
 }
 
-function blockLink(el, textValue) {
-  const base = window.location.href.split("#")[0];
+function selectorOrClass(el) {
+  if (!(el instanceof Element)) return "";
+  if (el.id) return `#${el.id}`;
+
+  const classes = Array.from(el.classList || []).filter(Boolean);
+  if (classes.length > 0) {
+    return `.${classes.join(".")}`;
+  }
+
+  return cssPath(el);
+}
+
+function anchorData(el, textValue) {
+  if (!(el instanceof Element)) return { anchor_type: "none", block_anchor: "" };
+  if (el.id) return { anchor_type: "id", block_anchor: el.id };
+
   const withId = el.closest("[id]");
   if (withId && withId.id) {
-    return `${base}#${encodeURIComponent(withId.id)}`;
+    return { anchor_type: "id", block_anchor: withId.id };
   }
+
+  if (textValue.length >= 10) {
+    return { anchor_type: "text", block_anchor: textValue.slice(0, 120) };
+  }
+
+  return { anchor_type: "none", block_anchor: "" };
+}
+
+function blockLink(anchor, textValue) {
+  const base = window.location.href.split("#")[0];
 
   if (textValue.length >= 10) {
     const fragment = encodeURIComponent(textValue.slice(0, 140));
     return `${base}#:~:text=${fragment}`;
+  }
+
+  if (anchor.anchor_type === "id" && anchor.block_anchor) {
+    return `${base}#${encodeURIComponent(anchor.block_anchor)}`;
   }
 
   return base;
@@ -145,6 +180,9 @@ for (const el of elements) {
   usage.get(key).elements_count += 1;
 
   const preview = text.slice(0, 140);
+  const anchor = anchorData(el, preview);
+  const selector = selectorOrClass(el);
+  const sample = toTextSample(text);
   records.push({
     font_family: primaryFamily,
     font_stack: stack,
@@ -152,7 +190,11 @@ for (const el of elements) {
     font_weight_name: weightLabel,
     font_style: fontStyle,
     elements_count: 1,
-    block_link: blockLink(el, preview),
+    block_link: blockLink(anchor, preview),
+    block_anchor: anchor.block_anchor,
+    block_anchor_type: anchor.anchor_type,
+    selector_or_class: selector || "(без селектора)",
+    text_sample: sample || "(без текста)",
     block_selector: cssPath(el),
     block_text_preview: preview
   });
