@@ -14,7 +14,6 @@ from history_store import (
   delete_chat,
   load_history,
   toggle_pinned,
-  toggle_starred,
 )
 
 app = Flask(__name__)
@@ -139,9 +138,6 @@ def index():
       elif history_action == "pin" and chat_id:
         toggle_pinned(chat_id)
         active_chat_id = active_chat_id or chat_id
-      elif history_action == "star" and chat_id:
-        toggle_starred(chat_id)
-        active_chat_id = active_chat_id or chat_id
       elif history_action == "delete" and chat_id:
         delete_chat(chat_id)
         if active_chat_id == chat_id:
@@ -153,7 +149,7 @@ def index():
       pinned_chats, dated_groups = history_sections(history_entries)
     else:
       page_url = request.form.get("url", "")
-      active_chat_id = request.form.get("active_chat_id", "").strip()
+      active_chat_id = ""
       normalized_url = normalize_url(page_url)
 
       if not normalized_url:
@@ -165,7 +161,7 @@ def index():
           full_rows = data.get("element_records", [])
           grouped_full_rows = group_full_rows(full_rows)
           active_chat_id = add_history_entry(
-            chat_id=active_chat_id if active_chat_id else None,
+            chat_id=None,
             request_url=normalized_url,
             resolved_url=data.get("url", normalized_url),
             summary_rows=summary_rows,

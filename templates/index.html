@@ -211,7 +211,7 @@
     }
     .menu-dropdown {
       position: absolute;
-      right: 0;
+      left: 0;
       top: 22px;
       min-width: 130px;
       background: #fff;
@@ -310,7 +310,7 @@
         {% for item in pinned_chats %}
         <article class="history-item chat-selectable{% if active_chat_id == item.id %} active{% endif %}" data-chat-id="{{ item.id }}">
           <div class="history-header">
-            <div class="history-meta">{{ item.updated_at }}</div>
+            <div></div>
             <div class="menu-wrap">
               <button class="menu-trigger menu-toggle" type="button" aria-label="Меню">⋯</button>
               <div class="menu-dropdown hidden">
@@ -331,13 +331,6 @@
           {% if item.is_empty %}
           <p class="muted">Пустой чат</p>
           {% endif %}
-          <div class="history-actions">
-            <form method="post">
-              <input type="hidden" name="history_action" value="star">
-              <input type="hidden" name="chat_id" value="{{ item.id }}">
-              <button class="icon-button" type="submit">★</button>
-            </form>
-          </div>
         </article>
         {% endfor %}
         {% endif %}
@@ -347,7 +340,7 @@
         {% for item in group["items"] %}
         <article class="history-item chat-selectable{% if active_chat_id == item.id %} active{% endif %}" data-chat-id="{{ item.id }}">
           <div class="history-header">
-            <div class="history-meta">{{ item.updated_at }}</div>
+            <div></div>
             <div class="menu-wrap">
               <button class="menu-trigger menu-toggle" type="button" aria-label="Меню">⋯</button>
               <div class="menu-dropdown hidden">
@@ -368,13 +361,6 @@
           {% if item.is_empty %}
           <p class="muted">Пустой чат</p>
           {% endif %}
-          <div class="history-actions">
-            <form method="post">
-              <input type="hidden" name="history_action" value="star">
-              <input type="hidden" name="chat_id" value="{{ item.id }}">
-              <button class="icon-button" type="submit">★</button>
-            </form>
-          </div>
         </article>
         {% endfor %}
         {% endfor %}
@@ -393,7 +379,6 @@
       <h1 class="analysis-title">Анализ шрифтов по URL</h1>
       <section class="card">
         <form method="post">
-          <input type="hidden" name="active_chat_id" value="{{ active_chat_id }}">
           <input
             type="url"
             name="url"
