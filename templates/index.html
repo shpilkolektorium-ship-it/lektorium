@@ -262,16 +262,19 @@
       background: #fcfdff;
       margin-bottom: 10px;
     }
+    .group-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
     .group-title {
-      margin: 0 0 8px;
-      font-size: 15px;
-    }
-    .group-list {
       margin: 0;
-      padding-left: 18px;
+      font-size: 16px;
     }
-    .group-list li {
-      margin-bottom: 6px;
+    .group-table {
+      margin-top: 8px;
     }
     .flat-view.hidden,
     .grouped-view.hidden {
@@ -430,8 +433,8 @@
             Показать все элементы
           </button>
           <label class="controls">
-            <input id="groupByFonts" type="checkbox">
-            Сгруппировать по шрифтам
+            <input id="blocksInOrder" type="checkbox">
+            Блоки по порядку
           </label>
         </div>
       </section>
@@ -439,14 +442,58 @@
       <section id="fullTableSection" class="card hidden">
         <h2 class="table-title">Все элементы</h2>
         <p class="muted">Каждая строка — отдельный найденный текстовый блок на странице.</p>
-        <div id="flatTableView" class="flat-view">
+        <div id="groupedTableView" class="grouped-view">
+          {% for group in grouped_full_rows %}
+          <section class="group-box">
+            <div class="group-header-row">
+              <h3 class="group-title">{{ group.font_family }}</h3>
+              <button class="toggle-block small-button" data-target="group-table-{{ group.group_id }}" type="button">
+                Посмотреть расположение
+              </button>
+            </div>
+            <div id="group-table-{{ group.group_id }}" class="group-table hidden">
+              <table>
+                <thead>
+                  <tr>
+                    <th>font_family</th>
+                    <th>weight-name</th>
+                    <th class="weight-col">font-weight</th>
+                    <th>Пример текста</th>
+                    <th>Ссылка на блок</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for row in group.rows %}
+                  <tr>
+                    <td>{{ row.font_family }}</td>
+                    <td>{{ row.font_weight_name }}</td>
+                    <td class="weight-col">{{ row.font_weight }}</td>
+                    <td>{{ row.text_sample or row.block_text_preview or "(без текста)" }}</td>
+                    <td>
+                      <button
+                        class="small-button highlight-block"
+                        type="button"
+                        data-link="{{ row.block_link }}"
+                        data-anchor="{{ row.block_anchor or '' }}"
+                        data-anchor-type="{{ row.block_anchor_type or '' }}"
+                      >Открыть и подсветить</button>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </section>
+          {% endfor %}
+        </div>
+
+        <div id="flatTableView" class="flat-view hidden">
           <table>
             <thead>
               <tr>
                 <th>font_family</th>
                 <th>weight-name</th>
                 <th class="weight-col">font-weight</th>
-                <th>Селектор / класс</th>
                 <th>Пример текста</th>
                 <th>Ссылка на блок</th>
               </tr>
@@ -457,7 +504,6 @@
                 <td>{{ row.font_family }}</td>
                 <td>{{ row.font_weight_name }}</td>
                 <td class="weight-col">{{ row.font_weight }}</td>
-                <td>{{ row.selector_or_class or row.block_selector or "(без селектора)" }}</td>
                 <td>{{ row.text_sample or row.block_text_preview or "(без текста)" }}</td>
                 <td>
                   <button
@@ -472,33 +518,6 @@
               {% endfor %}
             </tbody>
           </table>
-        </div>
-
-        <div id="groupedTableView" class="grouped-view hidden">
-          {% for group in grouped_full_rows %}
-          <section class="group-box">
-            <h3 class="group-title">
-              {{ group.font_family }} · {{ group.font_weight_name }}
-              <span class="weight-col"> ({{ group.font_weight }})</span>
-              — {{ group.rows_count }} селекторов
-            </h3>
-            <ul class="group-list">
-              {% for row in group.rows %}
-              <li>
-                <strong>{{ row.selector_or_class or row.block_selector or "(без селектора)" }}</strong> —
-                {{ row.text_sample or row.block_text_preview or "(без текста)" }}
-                <button
-                  class="small-button highlight-block"
-                  type="button"
-                  data-link="{{ row.block_link }}"
-                  data-anchor="{{ row.block_anchor or '' }}"
-                  data-anchor-type="{{ row.block_anchor_type or '' }}"
-                >Открыть и подсветить</button>
-              </li>
-              {% endfor %}
-            </ul>
-          </section>
-          {% endfor %}
         </div>
         <p class="hint">Подсветка работает через фрагмент текста/якорь страницы и зависит от поддержки браузером целевого сайта.</p>
       </section>
@@ -532,14 +551,14 @@
       });
     });
 
-    const groupByFonts = document.getElementById("groupByFonts");
+    const blocksInOrder = document.getElementById("blocksInOrder");
     const flatTableView = document.getElementById("flatTableView");
     const groupedTableView = document.getElementById("groupedTableView");
-    if (groupByFonts && flatTableView && groupedTableView) {
-      groupByFonts.addEventListener("change", (event) => {
-        const grouped = event.target.checked;
-        flatTableView.classList.toggle("hidden", grouped);
-        groupedTableView.classList.toggle("hidden", !grouped);
+    if (blocksInOrder && flatTableView && groupedTableView) {
+      blocksInOrder.addEventListener("change", (event) => {
+        const ordered = event.target.checked;
+        flatTableView.classList.toggle("hidden", !ordered);
+        groupedTableView.classList.toggle("hidden", ordered);
       });
     }
 

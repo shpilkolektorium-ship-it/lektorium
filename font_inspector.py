@@ -216,7 +216,13 @@ return {
   url: window.location.href,
   total_elements_scanned: elements.length,
   combinations_in_use: Array.from(usage.values()).sort(
-    (a, b) => b.elements_count - a.elements_count
+    (a, b) => {
+      const byFamily = a.font_family.localeCompare(b.font_family, undefined, { sensitivity: "base" });
+      if (byFamily !== 0) return byFamily;
+      const byWeight = String(a.font_weight).localeCompare(String(b.font_weight), undefined, { numeric: true });
+      if (byWeight !== 0) return byWeight;
+      return String(a.font_style).localeCompare(String(b.font_style), undefined, { sensitivity: "base" });
+    }
   ),
   element_records: records,
   loaded_fonts: loaded
