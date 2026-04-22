@@ -152,11 +152,12 @@
       justify-content: space-between;
       align-items: center;
       gap: 8px;
-      margin-bottom: 10px;
+      margin-bottom: 4px;
     }
     .sidebar-subtitle {
       margin: 0;
-      font-size: 12px;
+      font-size: 15px;
+      font-weight: 600;
       color: #6b7280;
       text-transform: lowercase;
       white-space: nowrap;
@@ -287,10 +288,17 @@
     }
     .table2-head {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
       margin-bottom: 8px;
+    }
+    .table2-head.closed {
+      align-items: center;
+      text-align: center;
+    }
+    .table2-head.closed .table-title {
+      margin-bottom: 0;
     }
     @media (max-width: 980px) {
       .app-shell {
@@ -435,15 +443,17 @@
 
       {% if full_rows %}
       <section id="fullTableSection" class="card">
-        <div class="table2-head">
+        <div id="table2Head" class="table2-head closed">
           <h2 class="table-title">Текстовые блоки</h2>
-          <button class="toggle-block" data-target="table2Body" type="button">найти</button>
+          <button
+            class="toggle-block"
+            data-target="table2Body"
+            data-open-text="Найти"
+            data-close-text="Скрыть"
+            type="button"
+          >Найти</button>
         </div>
         <p id="table2Description" class="muted">Все строки страницы с группировкой по шрифтам.</p>
-        <label class="controls">
-          <input id="blocksInOrder" type="checkbox">
-          Блоки по порядку
-        </label>
         <div id="table2Body" class="hidden">
         <div id="groupedTableView" class="grouped-view">
           {% for group in grouped_full_rows %}
@@ -490,38 +500,6 @@
           {% endfor %}
         </div>
 
-        <div id="flatTableView" class="flat-view hidden">
-          <table>
-            <thead>
-              <tr>
-                <th>font_family</th>
-                <th>weight-name</th>
-                <th class="weight-col">font-weight</th>
-                <th>Пример текста</th>
-                <th>Ссылка на блок</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for row in full_rows %}
-              <tr>
-                <td>{{ row.font_family }}</td>
-                <td>{{ row.font_weight_name }}</td>
-                <td class="weight-col">{{ row.font_weight }}</td>
-                <td>{{ row.text_sample or row.block_text_preview or "(без текста)" }}</td>
-                <td>
-                  <button
-                    class="highlight-block"
-                    type="button"
-                    data-link="{{ row.block_link }}"
-                    data-anchor="{{ row.block_anchor or '' }}"
-                    data-anchor-type="{{ row.block_anchor_type or '' }}"
-                  >Открыть и подсветить</button>
-                </td>
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        </div>
         <p class="hint">Подсветка работает через фрагмент текста/якорь страницы и зависит от поддержки браузером целевого сайта.</p>
         </div>
       </section>
@@ -537,13 +515,18 @@
     }
 
     const toggleButtons = document.querySelectorAll(".toggle-block");
+    const table2Head = document.getElementById("table2Head");
     toggleButtons.forEach((button) => {
       button.addEventListener("click", () => {
         const targetId = button.dataset.target;
         const targetElement = document.getElementById(targetId);
         if (!targetElement) return;
         const isHidden = targetElement.classList.toggle("hidden");
-        if (button.textContent.includes("Показать")) {
+        const openText = button.dataset.openText;
+        const closeText = button.dataset.closeText;
+        if (openText && closeText) {
+          button.textContent = isHidden ? openText : closeText;
+        } else if (button.textContent.includes("Показать")) {
           button.textContent = isHidden
             ? button.textContent
             : button.textContent.replace("Показать", "Скрыть");
@@ -552,25 +535,12 @@
             ? button.textContent.replace("Скрыть", "Показать")
             : button.textContent;
         }
-      });
-    });
 
-    const blocksInOrder = document.getElementById("blocksInOrder");
-    const flatTableView = document.getElementById("flatTableView");
-    const groupedTableView = document.getElementById("groupedTableView");
-    const table2Description = document.getElementById("table2Description");
-    if (blocksInOrder && flatTableView && groupedTableView) {
-      blocksInOrder.addEventListener("change", (event) => {
-        const ordered = event.target.checked;
-        flatTableView.classList.toggle("hidden", !ordered);
-        groupedTableView.classList.toggle("hidden", ordered);
-        if (table2Description) {
-          table2Description.textContent = ordered
-            ? "Все строки траницы по порядку"
-            : "Все строки страницы с группировкой по шрифтам.";
+        if (targetId === "table2Body" && table2Head) {
+          table2Head.classList.toggle("closed", isHidden);
         }
       });
-    }
+    });
 
     const highlightButtons = document.querySelectorAll(".highlight-block");
     highlightButtons.forEach((button) => {
