@@ -1,0 +1,617 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Анализ шрифтов</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f6f7fb;
+      color: #1f2937;
+    }
+    .app-shell {
+      display: grid;
+      grid-template-columns: 330px 1fr;
+      min-height: 100vh;
+    }
+    .sidebar {
+      background: #f3f4f6;
+      border-right: 1px solid #d1d5db;
+      padding: 16px;
+      overflow-y: auto;
+    }
+    .content {
+      padding: 24px;
+    }
+    h1 {
+      margin: 0 0 16px;
+      font-size: 28px;
+    }
+    .card {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+      padding: 18px;
+      margin-bottom: 16px;
+    }
+    form {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    input[type="url"], button {
+      font-size: 16px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+    }
+    input[type="url"] {
+      flex: 1;
+      min-width: 280px;
+    }
+    button {
+      border: none;
+      background: #2563eb;
+      color: white;
+      cursor: pointer;
+      min-width: 140px;
+    }
+    button:hover {
+      background: #1d4ed8;
+    }
+    .error {
+      color: #b91c1c;
+      background: #fee2e2;
+      border: 1px solid #fecaca;
+      border-radius: 8px;
+      padding: 10px 12px;
+      margin-top: 12px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: 8px;
+    }
+    th, td {
+      border-bottom: 1px solid #e5e7eb;
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      background: #f9fafb;
+      font-weight: 700;
+    }
+    tbody tr:hover {
+      background: #f8fafc;
+    }
+    .table-title {
+      margin: 0 0 10px;
+      font-size: 18px;
+    }
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 12px 0;
+      color: #374151;
+    }
+    .controls-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .weight-col {
+      display: none;
+    }
+    body.show-weight .weight-col {
+      display: table-cell;
+    }
+    .muted {
+      color: #6b7280;
+      font-size: 13px;
+    }
+    .hidden {
+      display: none;
+    }
+    .history-item {
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 12px;
+      background: #fbfdff;
+    }
+    .history-item.active {
+      border-color: #2563eb;
+      background: #eff6ff;
+    }
+    .history-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+    .history-meta {
+      font-size: 13px;
+      color: #6b7280;
+    }
+    .history-url {
+      word-break: break-all;
+      margin: 6px 0;
+      font-size: 14px;
+    }
+    .sidebar-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .sidebar-subtitle {
+      margin: 0;
+      font-size: 12px;
+      color: #6b7280;
+      text-transform: lowercase;
+      white-space: nowrap;
+    }
+    .history-section-title {
+      margin: 14px 0 8px;
+      font-size: 12px;
+      color: #6b7280;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .history-title {
+      margin: 0;
+      font-size: 14px;
+      word-break: break-word;
+    }
+    .history-actions {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 8px;
+      flex-wrap: wrap;
+    }
+    .icon-button {
+      min-width: auto;
+      padding: 4px 6px;
+      font-size: 13px;
+      line-height: 1;
+      background: transparent;
+      color: #6b7280;
+      border: none;
+    }
+    .icon-button:hover {
+      background: transparent;
+      color: #4b5563;
+    }
+    .menu-wrap {
+      position: relative;
+    }
+    .menu-trigger {
+      font-size: 18px;
+      padding: 0 6px;
+      min-width: auto;
+      color: #6b7280;
+      background: transparent;
+      border: none;
+    }
+    .menu-trigger:hover {
+      background: transparent;
+      color: #4b5563;
+    }
+    .menu-dropdown {
+      position: absolute;
+      right: 0;
+      top: 22px;
+      min-width: 130px;
+      background: #fff;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+      padding: 6px;
+      z-index: 5;
+    }
+    .menu-dropdown.hidden {
+      display: none;
+    }
+    .menu-action {
+      display: block;
+      width: 100%;
+      text-align: left;
+      background: transparent;
+      color: #1f2937;
+      border: none;
+      padding: 7px 8px;
+      border-radius: 6px;
+      min-width: auto;
+      font-size: 13px;
+    }
+    .menu-action:hover {
+      background: #f3f4f6;
+    }
+    .menu-action.delete {
+      color: #b91c1c;
+    }
+    .new-chat-button {
+      width: 100%;
+      margin-bottom: 12px;
+    }
+    .analysis-title {
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+    .small-button {
+      min-width: auto;
+      font-size: 14px;
+      padding: 6px 10px;
+    }
+    .group-box {
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 12px;
+      background: #fcfdff;
+      margin-bottom: 10px;
+    }
+    .group-title {
+      margin: 0 0 8px;
+      font-size: 15px;
+    }
+    .group-list {
+      margin: 0;
+      padding-left: 18px;
+    }
+    .group-list li {
+      margin-bottom: 6px;
+    }
+    .flat-view.hidden,
+    .grouped-view.hidden {
+      display: none;
+    }
+    .hint {
+      color: #6b7280;
+      font-size: 12px;
+      margin-top: 8px;
+    }
+    @media (max-width: 980px) {
+      .app-shell {
+        grid-template-columns: 1fr;
+      }
+      .sidebar {
+        border-right: none;
+        border-bottom: 1px solid #d1d5db;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="app-shell">
+    <aside class="sidebar">
+      <section class="card">
+        <form method="post">
+          <input type="hidden" name="history_action" value="new">
+          <button class="new-chat-button" type="submit">Новый чат</button>
+        </form>
+        <div class="sidebar-head">
+          <p class="sidebar-subtitle">История чатов</p>
+        </div>
+
+        {% if pinned_chats %}
+        <h3 class="history-section-title">Закрепленные</h3>
+        {% for item in pinned_chats %}
+        <article class="history-item chat-selectable{% if active_chat_id == item.id %} active{% endif %}" data-chat-id="{{ item.id }}">
+          <div class="history-header">
+            <div class="history-meta">{{ item.updated_at }}</div>
+            <div class="menu-wrap">
+              <button class="menu-trigger menu-toggle" type="button" aria-label="Меню">⋯</button>
+              <div class="menu-dropdown hidden">
+                <form method="post">
+                  <input type="hidden" name="history_action" value="pin">
+                  <input type="hidden" name="chat_id" value="{{ item.id }}">
+                  <button class="menu-action" type="submit">{{ "Открепить" if item.pinned else "Закрепить" }}</button>
+                </form>
+                <form method="post">
+                  <input type="hidden" name="history_action" value="delete">
+                  <input type="hidden" name="chat_id" value="{{ item.id }}">
+                  <button class="menu-action delete" type="submit">Удалить</button>
+                </form>
+              </div>
+            </div>
+          </div>
+          <p class="history-title">{{ item.title }}</p>
+          {% if item.is_empty %}
+          <p class="muted">Пустой чат</p>
+          {% endif %}
+          <div class="history-actions">
+            <form method="post">
+              <input type="hidden" name="history_action" value="star">
+              <input type="hidden" name="chat_id" value="{{ item.id }}">
+              <button class="icon-button" type="submit">★</button>
+            </form>
+          </div>
+        </article>
+        {% endfor %}
+        {% endif %}
+
+        {% for group in dated_groups %}
+        <h3 class="history-section-title">{{ group.title }}</h3>
+        {% for item in group["items"] %}
+        <article class="history-item chat-selectable{% if active_chat_id == item.id %} active{% endif %}" data-chat-id="{{ item.id }}">
+          <div class="history-header">
+            <div class="history-meta">{{ item.updated_at }}</div>
+            <div class="menu-wrap">
+              <button class="menu-trigger menu-toggle" type="button" aria-label="Меню">⋯</button>
+              <div class="menu-dropdown hidden">
+                <form method="post">
+                  <input type="hidden" name="history_action" value="pin">
+                  <input type="hidden" name="chat_id" value="{{ item.id }}">
+                  <button class="menu-action" type="submit">{{ "Открепить" if item.pinned else "Закрепить" }}</button>
+                </form>
+                <form method="post">
+                  <input type="hidden" name="history_action" value="delete">
+                  <input type="hidden" name="chat_id" value="{{ item.id }}">
+                  <button class="menu-action delete" type="submit">Удалить</button>
+                </form>
+              </div>
+            </div>
+          </div>
+          <p class="history-title">{{ item.title }}</p>
+          {% if item.is_empty %}
+          <p class="muted">Пустой чат</p>
+          {% endif %}
+          <div class="history-actions">
+            <form method="post">
+              <input type="hidden" name="history_action" value="star">
+              <input type="hidden" name="chat_id" value="{{ item.id }}">
+              <button class="icon-button" type="submit">★</button>
+            </form>
+          </div>
+        </article>
+        {% endfor %}
+        {% endfor %}
+
+        {% if not pinned_chats and not dated_groups %}
+        <p class="muted">История пока пустая.</p>
+        {% endif %}
+      </section>
+      <form id="selectChatForm" method="post" class="hidden">
+        <input type="hidden" name="history_action" value="select">
+        <input id="selectChatId" type="hidden" name="chat_id" value="">
+      </form>
+    </aside>
+
+    <section class="content">
+      <h1 class="analysis-title">Анализ шрифтов по URL</h1>
+      <section class="card">
+        <form method="post">
+          <input type="hidden" name="active_chat_id" value="{{ active_chat_id }}">
+          <input
+            type="url"
+            name="url"
+            placeholder="https://example.com"
+            value="{{ page_url }}"
+            required
+          >
+          <button type="submit">Запустить</button>
+        </form>
+        {% if error %}
+        <div class="error">{{ error }}</div>
+        {% endif %}
+      </section>
+
+      {% if active_chat_id and not summary_rows and not full_rows %}
+      <section class="card">
+        <p class="muted">Новый чат создан. Введите URL и нажмите «Запустить».</p>
+      </section>
+      {% endif %}
+
+      {% if summary_rows %}
+      <section class="card">
+        <h2 class="table-title">Обзор</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>font_family</th>
+              <th>weight-name</th>
+              <th class="weight-col">font-weight</th>
+              <th>mentioned</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in summary_rows %}
+            <tr>
+              <td>{{ row.font_family }}</td>
+              <td>{{ row.font_weight_name }}</td>
+              <td class="weight-col">{{ row.font_weight }}</td>
+              <td>{{ row.elements_count }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <label class="controls">
+          <input id="showWeight" type="checkbox">
+          Показать font-weight
+        </label>
+      </section>
+      {% endif %}
+
+      {% if full_rows %}
+      <section class="card">
+        <div class="controls-row">
+          <button class="toggle-block" data-target="fullTableSection" type="button">
+            Показать все элементы
+          </button>
+          <label class="controls">
+            <input id="groupByFonts" type="checkbox">
+            Сгруппировать по шрифтам
+          </label>
+        </div>
+      </section>
+
+      <section id="fullTableSection" class="card hidden">
+        <h2 class="table-title">Все элементы</h2>
+        <p class="muted">Каждая строка — отдельный найденный текстовый блок на странице.</p>
+        <div id="flatTableView" class="flat-view">
+          <table>
+            <thead>
+              <tr>
+                <th>font_family</th>
+                <th>weight-name</th>
+                <th class="weight-col">font-weight</th>
+                <th>Селектор / класс</th>
+                <th>Пример текста</th>
+                <th>Ссылка на блок</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in full_rows %}
+              <tr>
+                <td>{{ row.font_family }}</td>
+                <td>{{ row.font_weight_name }}</td>
+                <td class="weight-col">{{ row.font_weight }}</td>
+                <td>{{ row.selector_or_class or row.block_selector or "(без селектора)" }}</td>
+                <td>{{ row.text_sample or row.block_text_preview or "(без текста)" }}</td>
+                <td>
+                  <button
+                    class="highlight-block"
+                    type="button"
+                    data-link="{{ row.block_link }}"
+                    data-anchor="{{ row.block_anchor or '' }}"
+                    data-anchor-type="{{ row.block_anchor_type or '' }}"
+                  >Открыть и подсветить</button>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+        <div id="groupedTableView" class="grouped-view hidden">
+          {% for group in grouped_full_rows %}
+          <section class="group-box">
+            <h3 class="group-title">
+              {{ group.font_family }} · {{ group.font_weight_name }}
+              <span class="weight-col"> ({{ group.font_weight }})</span>
+              — {{ group.rows_count }} селекторов
+            </h3>
+            <ul class="group-list">
+              {% for row in group.rows %}
+              <li>
+                <strong>{{ row.selector_or_class or row.block_selector or "(без селектора)" }}</strong> —
+                {{ row.text_sample or row.block_text_preview or "(без текста)" }}
+                <button
+                  class="small-button highlight-block"
+                  type="button"
+                  data-link="{{ row.block_link }}"
+                  data-anchor="{{ row.block_anchor or '' }}"
+                  data-anchor-type="{{ row.block_anchor_type or '' }}"
+                >Открыть и подсветить</button>
+              </li>
+              {% endfor %}
+            </ul>
+          </section>
+          {% endfor %}
+        </div>
+        <p class="hint">Подсветка работает через фрагмент текста/якорь страницы и зависит от поддержки браузером целевого сайта.</p>
+      </section>
+      {% endif %}
+    </section>
+  </main>
+  <script>
+    const showWeightToggle = document.getElementById("showWeight");
+    if (showWeightToggle) {
+      showWeightToggle.addEventListener("change", (event) => {
+        document.body.classList.toggle("show-weight", event.target.checked);
+      });
+    }
+
+    const toggleButtons = document.querySelectorAll(".toggle-block");
+    toggleButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const targetId = button.dataset.target;
+        const targetElement = document.getElementById(targetId);
+        if (!targetElement) return;
+        const isHidden = targetElement.classList.toggle("hidden");
+        if (button.textContent.includes("Показать")) {
+          button.textContent = isHidden
+            ? button.textContent
+            : button.textContent.replace("Показать", "Скрыть");
+        } else if (button.textContent.includes("Скрыть")) {
+          button.textContent = isHidden
+            ? button.textContent.replace("Скрыть", "Показать")
+            : button.textContent;
+        }
+      });
+    });
+
+    const groupByFonts = document.getElementById("groupByFonts");
+    const flatTableView = document.getElementById("flatTableView");
+    const groupedTableView = document.getElementById("groupedTableView");
+    if (groupByFonts && flatTableView && groupedTableView) {
+      groupByFonts.addEventListener("change", (event) => {
+        const grouped = event.target.checked;
+        flatTableView.classList.toggle("hidden", grouped);
+        groupedTableView.classList.toggle("hidden", !grouped);
+      });
+    }
+
+    const highlightButtons = document.querySelectorAll(".highlight-block");
+    highlightButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const link = button.dataset.link;
+        if (!link) return;
+        window.open(link, "_blank", "noopener,noreferrer");
+      });
+    });
+
+    const menuToggles = document.querySelectorAll(".menu-toggle");
+    menuToggles.forEach((button) => {
+      button.addEventListener("click", (event) => {
+        event.stopPropagation();
+        const wrap = button.closest(".menu-wrap");
+        if (!wrap) return;
+        const dropdown = wrap.querySelector(".menu-dropdown");
+        if (!dropdown) return;
+        document.querySelectorAll(".menu-dropdown").forEach((menu) => {
+          if (menu !== dropdown) menu.classList.add("hidden");
+        });
+        dropdown.classList.toggle("hidden");
+      });
+    });
+
+    document.addEventListener("click", () => {
+      document.querySelectorAll(".menu-dropdown").forEach((menu) => menu.classList.add("hidden"));
+    });
+
+    const selectChatForm = document.getElementById("selectChatForm");
+    const selectChatId = document.getElementById("selectChatId");
+    const chatCards = document.querySelectorAll(".chat-selectable");
+    chatCards.forEach((card) => {
+      card.addEventListener("click", (event) => {
+        const target = event.target;
+        if (!(target instanceof Element)) return;
+        if (target.closest("form") || target.closest(".menu-wrap")) return;
+        const chatId = card.dataset.chatId;
+        if (!chatId || !selectChatForm || !selectChatId) return;
+        selectChatId.value = chatId;
+        selectChatForm.submit();
+      });
+    });
+
+    document.querySelectorAll(".chat-selectable form, .chat-selectable button").forEach((element) => {
+      element.addEventListener("click", (event) => {
+        event.stopPropagation();
+      });
+    });
+  </script>
+</body>
+</html>
