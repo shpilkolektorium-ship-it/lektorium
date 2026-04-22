@@ -187,16 +187,6 @@ def index():
       grouped_full_rows = active_item.get("grouped_full_rows", [])
     else:
       active_chat_id = ""
-  elif summary_rows or full_rows:
-    pass
-  elif history_entries:
-    active_chat_id = str(history_entries[0].get("id", ""))
-    active_item = get_chat_by_id(history_entries, active_chat_id)
-    if active_item is not None:
-      page_url = str(active_item.get("request_url", "") or "")
-      summary_rows = active_item.get("summary_rows", [])
-      full_rows = active_item.get("full_rows", [])
-      grouped_full_rows = active_item.get("grouped_full_rows", [])
 
   return render_template(
     "index.html",

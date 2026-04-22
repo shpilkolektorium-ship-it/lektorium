@@ -16,11 +16,40 @@
       grid-template-columns: 330px 1fr;
       min-height: 100vh;
     }
+    .app-shell.sidebar-collapsed {
+      grid-template-columns: 56px 1fr;
+    }
     .sidebar {
       background: #f3f4f6;
       border-right: 1px solid #d1d5db;
       padding: 16px;
       overflow-y: auto;
+    }
+    .app-shell.sidebar-collapsed .sidebar {
+      padding: 10px 8px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+    .app-shell.sidebar-collapsed .sidebar .card,
+    .app-shell.sidebar-collapsed .sidebar #selectChatForm {
+      display: none;
+    }
+    .sidebar-toggle {
+      min-width: auto;
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      padding: 0;
+      font-size: 18px;
+      background: #ffffff;
+      border: 1px solid #d1d5db;
+      color: #374151;
+      margin-bottom: 10px;
+    }
+    .sidebar-toggle:hover {
+      background: #f9fafb;
+      color: #1f2937;
     }
     .content {
       padding: 24px;
@@ -288,17 +317,11 @@
     }
     .table2-head {
       display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 8px;
-      margin-bottom: 8px;
-    }
-    .table2-head.closed {
+      justify-content: space-between;
       align-items: center;
-      text-align: center;
-    }
-    .table2-head.closed .table-title {
-      margin-bottom: 0;
+      gap: 10px;
+      margin-bottom: 8px;
+      width: 100%;
     }
     @media (max-width: 980px) {
       .app-shell {
@@ -314,6 +337,7 @@
 <body>
   <main class="app-shell">
     <aside class="sidebar">
+      <button id="sidebarToggle" class="sidebar-toggle" type="button" aria-label="Свернуть историю">⟨</button>
       <section class="card">
         <form method="post">
           <input type="hidden" name="history_action" value="new">
@@ -443,7 +467,7 @@
 
       {% if full_rows %}
       <section id="fullTableSection" class="card">
-        <div id="table2Head" class="table2-head closed">
+        <div id="table2Head" class="table2-head">
           <h2 class="table-title">Текстовые блоки</h2>
           <button
             class="toggle-block"
@@ -453,7 +477,6 @@
             type="button"
           >Найти</button>
         </div>
-        <p id="table2Description" class="muted">Все строки страницы с группировкой по шрифтам.</p>
         <div id="table2Body" class="hidden">
         <div id="groupedTableView" class="grouped-view">
           {% for group in grouped_full_rows %}
@@ -481,7 +504,7 @@
                     <td>{{ row.font_family }}</td>
                     <td>{{ row.font_weight_name }}</td>
                     <td class="weight-col">{{ row.font_weight }}</td>
-                    <td>{{ row.text_sample or row.block_text_preview or "(без текста)" }}</td>
+                    <td>{{ row.text_sample or row.block_text_preview or "" }}</td>
                     <td>
                       <button
                         class="small-button highlight-block"
@@ -515,7 +538,6 @@
     }
 
     const toggleButtons = document.querySelectorAll(".toggle-block");
-    const table2Head = document.getElementById("table2Head");
     toggleButtons.forEach((button) => {
       button.addEventListener("click", () => {
         const targetId = button.dataset.target;
@@ -534,10 +556,6 @@
           button.textContent = isHidden
             ? button.textContent.replace("Скрыть", "Показать")
             : button.textContent;
-        }
-
-        if (targetId === "table2Body" && table2Head) {
-          table2Head.classList.toggle("closed", isHidden);
         }
       });
     });
@@ -590,6 +608,16 @@
         event.stopPropagation();
       });
     });
+
+    const appShell = document.querySelector(".app-shell");
+    const sidebarToggle = document.getElementById("sidebarToggle");
+    if (appShell && sidebarToggle) {
+      sidebarToggle.addEventListener("click", () => {
+        const collapsed = appShell.classList.toggle("sidebar-collapsed");
+        sidebarToggle.textContent = collapsed ? "⟩" : "⟨";
+        sidebarToggle.setAttribute("aria-label", collapsed ? "Развернуть историю" : "Свернуть историю");
+      });
+    }
   </script>
 </body>
 </html>
