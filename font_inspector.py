@@ -135,13 +135,18 @@ function anchorData(el, textValue) {
 function blockLink(anchor, textValue) {
   const base = window.location.href.split("#")[0];
 
-  if (textValue.length >= 10) {
-    const fragment = encodeURIComponent(textValue.slice(0, 140));
+  if (anchor.anchor_type === "id" && anchor.block_anchor) {
+    return `${base}#${encodeURIComponent(anchor.block_anchor)}`;
+  }
+
+  if (anchor.anchor_type === "text" && anchor.block_anchor) {
+    const fragment = encodeURIComponent(anchor.block_anchor.slice(0, 140));
     return `${base}#:~:text=${fragment}`;
   }
 
-  if (anchor.anchor_type === "id" && anchor.block_anchor) {
-    return `${base}#${encodeURIComponent(anchor.block_anchor)}`;
+  if (textValue.length >= 10) {
+    const fragment = encodeURIComponent(textValue.slice(0, 140));
+    return `${base}#:~:text=${fragment}`;
   }
 
   return base;
