@@ -150,7 +150,8 @@ def index():
       pinned_chats, dated_groups = history_sections(history_entries)
     else:
       page_url = request.form.get("url", "")
-      active_chat_id = ""
+      refresh_chat_id = request.form.get("refresh_chat_id", "").strip()
+      active_chat_id = refresh_chat_id or ""
       normalized_url = normalize_url(page_url)
 
       if not normalized_url:
@@ -162,7 +163,7 @@ def index():
           full_rows = data.get("element_records", [])
           grouped_full_rows = group_full_rows(full_rows)
           active_chat_id = add_history_entry(
-            chat_id=None,
+            chat_id=refresh_chat_id or None,
             request_url=normalized_url,
             resolved_url=data.get("url", normalized_url),
             summary_rows=summary_rows,

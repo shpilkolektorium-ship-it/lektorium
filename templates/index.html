@@ -121,6 +121,30 @@
       margin: 0 0 10px;
       font-size: 18px;
     }
+    .overview-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .overview-head .table-title {
+      margin: 0;
+    }
+    .refresh-form {
+      margin: 0;
+    }
+    .refresh-button {
+      min-width: auto;
+      width: 34px;
+      height: 34px;
+      padding: 0;
+      font-size: 18px;
+      line-height: 1;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+    }
     .controls {
       display: flex;
       align-items: center;
@@ -437,7 +461,14 @@
 
       {% if summary_rows %}
       <section class="card">
-        <h2 class="table-title">Обзор</h2>
+        <div class="overview-head">
+          <h2 class="table-title">Обзор</h2>
+          <form class="refresh-form" method="post">
+            <input type="hidden" name="url" value="{{ page_url }}">
+            <input type="hidden" name="refresh_chat_id" value="{{ active_chat_id }}">
+            <button class="refresh-button" type="submit" title="Обновить таблицы" aria-label="Обновить таблицы">↻</button>
+          </form>
+        </div>
         <table>
           <thead>
             <tr>
